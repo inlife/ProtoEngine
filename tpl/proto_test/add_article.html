@@ -1,0 +1,39 @@
+{% extends(base) %}
+
+{% block(content) %}
+    <article>
+        <header></header>
+        <section>
+            <form action="{% url(article::add) %}" method="POST" enctype="multipart/form-data">
+                <table align="center">
+                    <tr>
+                        <td>Название статьи*:</td>
+                        <td><input type="text" name="title"></td>
+                    </tr>
+                    <tr>
+                        <td>Дата добавления*:</td>
+                        <td><input type="datetime" name="date"></td>
+                    </tr>
+                    <tr>
+                        <td>Тело статьи*:</td>
+                        <td><textarea name="text" rows="8" cols="50"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Теги:</td>
+                        <td><textarea name="tags" rows="1" cols="50"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Изображение:</td>
+                        <td><input type="file" name="image"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" name="submit" value="Добавить"></td>
+                    </tr>
+                </table>
+
+            </form>
+        </section>
+        <footer></footer>
+    </article>
+{% endblock %}

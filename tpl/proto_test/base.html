@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% page.title %}</title>
+        <link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <header>
+            <h1>Proto Engine 3</h1>
+        </header>
+        <nav>
+            <a href="{% url(main::index) %}">Главная</a>
+            <a href="{% url(article::index) %}">Добавить новость</a>
+        </nav>
+        <section>
+            {% block(content) %}
+            {% endblock %}
+        </section>
+        <footer>
+            &copy; 2013 {% page.debug %} 
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,11 @@
+{% extends(base) %}
+
+{% block(content) %}
+    <article>
+        <header>{% page.error.title %}</header>
+        <section>
+           {% page.error.message %}
+        </section>
+        <footer></footer>
+    </article>
+{% endblock %}

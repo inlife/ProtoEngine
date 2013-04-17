@@ -1,0 +1,26 @@
+{% extends(base) %}
+
+{% block(content) %}
+    {% foreach(articles::article) %}
+        <article>
+            <header>
+                {% article.title %}
+            </header>
+            <section>
+                {% if (article.image) %}
+                    <img src="{% article.image %}" class="article-image">
+                {% endif %}
+                {% article.text %}
+            </section>
+            <footer>
+                <div class="article-data">
+                    Дата добавления: {% article.day %} {% article.month %}
+                    Теги: 
+                    {% foreach(article.tags::tag) %}
+                        {% tag.text %},
+                    {% endfor %}
+                </div>
+            </footer>
+        </article>
+    {% endfor %}
+{% endblock %}

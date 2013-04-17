@@ -1,0 +1,66 @@
+body {
+    font-family: Tahoma, Verdana, Geneva, Arial, Helvetica, sans-serif;
+    background: #999;
+    color: #333;
+    margin: 0px;
+}
+
+a {
+    color: #333;
+}
+
+a:hover {
+    color: #555;
+}
+
+header {
+    background: #5dc510;
+    font-size: 2.5em;
+    -moz-box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 0 20px rgba(0,0,0,0.5); 
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    text-shadow: 1px 1px 0px #9d9;
+    
+    padding: 20px 50px;
+}
+
+nav {
+    background: #53b808;
+    font-size: 1.5em;
+    padding: 20px 20px;
+}
+
+section {
+    background: #4f4f4f;
+    color: #fff;
+    padding: 30px;
+    -moz-box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 0 20px rgba(0,0,0,0.5); 
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    padding: 45px;
+    display: block;
+    overflow: hidden;
+}
+
+footer {
+    background: #2b9010;
+    padding: 10px;
+    -moz-box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 0 20px rgba(0,0,0,0.5); 
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+article {
+    padding-bottom: 50px;
+}
+
+.article-image {
+    margin: 5px;
+    float: left;    
+}
+
+.article-data {
+    display: inline;
+    color: #333;
+    font-size: 0.75em;
+}
