@@ -11,7 +11,7 @@ require("core.php");
 peCore::init(
     array(
         /* Basic project settings */
-        "title"     => " | Buddha - Fashion Sushi Cafe",
+        "title"     => " | Proto Engine 3",
         "host"      => "http://localhost:8080/proto/",
         "siteTheme" => "buddha",
         "tplDirs"   => array("style", "css", "script", "js", "images"),
@@ -20,8 +20,8 @@ peCore::init(
         
         /* Mysql settings */
         "mysqlHost" => "localhost",
-        "mysqlUser" => "root",
-        "mysqlPass" => "usbw",
+        "mysqlUser" => "user",
+        "mysqlPass" => "pass",
         "mysqlName" => "proto",
         
         /* Components */
