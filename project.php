@@ -11,15 +11,9 @@ require("core.php");
 peCore::init(
     array(
         /* Basic project settings */
-<<<<<<< HEAD
-        "title"     => " | Proto Engine 3",
-        "host"      => "http://localhost:8080/proto/",
-        "siteTheme" => "buddha",
-=======
         "title"     => " | Proto Engine",
         "host"      => "http://localhost/",
         "siteTheme" => "proto_test",
->>>>>>> ProtoEngine v3.2.4
         "tplDirs"   => array("style", "css", "script", "js", "images"),
         "debug"     => true,
         "hashSalt"  => "qw123",
