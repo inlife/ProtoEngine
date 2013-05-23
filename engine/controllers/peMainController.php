@@ -11,21 +11,15 @@ class peMainController extends peController
     public static function indexAction()
     {
         /* Imports */
+        peLoader::import("models.peArticle");
         
         /* Generating response*/ 
-        $response = new peResponse("index");
+        $object = new peArticle();
+        $response = new peResponse("index", true);
         $response->page->title = "Главная" . peProject::getTitle();
-        $response->page->keywords = "index,main,buddha,fashion,sushi,cafe";
-        $response->page->description = "Buddha - Fashion Sushi Cafe";
-        $response->page->m1 = 'class="current-menu-item"';
-        return $response;
-    }
-    
-    public static function newsAction()
-    {
-        $response = new peResponse("newslist");
-        $response->page->title = "Новости" . peProject::getTitle();
-        $response->page->m2 = 'class="current-menu-item"';
+        $response->page->keywords = "";
+        $response->page->description = "";
+        $response->articles = $object->call("loadAll");
         return $response;
     }
 }

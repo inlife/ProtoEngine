@@ -14,9 +14,9 @@ class peErrorController
             case 7: $message = "Размер изображения больше 300кб"; break;
         }
         $response = new peResponse("error");
-        $response->page->title = peProject::getTitle() . "Ошибка";
-        $response->error->title = $title;
-        $response->error->message = $message;
+        $response->page->title = $title . peProject::getTitle();
+        $response->page->error->title = $title;
+        $response->page->error->message = $message;
         return $response;
     }
 }

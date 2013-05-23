@@ -11,7 +11,7 @@ class peArticleController extends peController
     public static function indexAction()
     {
         $response = new peResponse("add_article");
-        $response->page->title = peProject::getTitle() . "Добавление новости";
+        $response->page->title = "Добавление новости" . peProject::getTitle();
         return $response;
     }
     

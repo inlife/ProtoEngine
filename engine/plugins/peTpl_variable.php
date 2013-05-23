@@ -15,8 +15,7 @@ class peTpl_variable
     
     public static $blocked = false;
     public static $syntax = array(
-        "([A-Za-z0-9._]{2,64})",
-        "page.debug"
+        "([A-Za-z0-9._]{2,64})"
     );
     
     public static function setBlock($value)
@@ -45,14 +44,16 @@ class peTpl_variable
     
     public static function syntax(&$tpl, $n, &$data, $ignore = false)
     {
-        $matches = array();
         if (!self::$blocked) {
+            $matches = array();
             if (preg_match(peTemplate::exp(self::$syntax[0]), $tpl[$n], $matches)) {
-                if (!in_array($matches[1], self::$syntax) && (strpos($matches[1], ".") || $ignore)) {
+                if (!strpos($matches[0], peTpl_NoCacheSym) && !in_array($matches[1], self::$syntax) 
+                    && (strpos($matches[1], ".") || $ignore)) {
                     list($first) = explode(".", $matches[1]);
                     if ($ignore || !in_array($first, self::$syntax)) {
                         $route = str_replace(".", "->", $matches[1]);
                         $value = eval('return @$data->' . $route . ';');
+                        if ($value instanceof peModel) $value = $value->_recall();
                         if ($ignore) return $value;
                         if (empty($value)) $value = null;
                         $tpl[$n] = preg_replace(

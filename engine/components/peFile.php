@@ -22,48 +22,19 @@ class peFile
     
     public function load($filename = null, $inArray = false)
     {
-        if (!$filename) {
-            $filename = $this->filename;
-        }
-        if ($inArray) {
-            try {
-                $this->content = array();
-                foreach((array)file($this->filename) as $number => $string)
-                {
-                    $this->content[$number] = $string;/*iconv(
-                        peProject::getCharsetIn(), 
-                        peProject::getCharsetTo(), 
-                        $string
-                    );*/
-                }
-                return $this->content;
-            } catch(Exception $ex) {
-                return null;
-            }
-        } else {
-            try {
-                $this->content = file_get_contents($this->filename); /*iconv(
-                    peProject::getCharsetIn(), 
-                    peProject::getCharsetTo(), 
-                    file_get_contents($this->filename)
-                );*/
-                return $this->content;
-            } catch(Exception $ex) {
-                return null;
-            }
-        }
-        return null;
+        if (!$filename) $filename = $this->filename;
+        
+        if ($inArray) $this->content = @file($this->filename);
+        else $this->content = @file_get_contents($this->filename);
+        
+        return ($this->isEmpty()) ? null : $this->content;
     }
     
     public function save($filename = null, $content = null, $flags = 0)
     {
-        if (!$filename) {
-            $filename = $this->filename;
-        } if (!$content) {
-            $content = $this->content;
-        } if (!$flags) {
-            $flags = $this->flags;
-        }
+        if (!$filename) $filename = $this->filename;
+        if (!$content)  $content = $this->content;
+        if (!$flags)    $flags = $this->flags;
         
         $this->getFileName($filename);
         try {
@@ -74,9 +45,19 @@ class peFile
         return null;
     }
     
-    public function getContent()
+    public function set($data) 
+    {
+        return $this->content = $data;
+    }
+    
+    public function get()
     {
         return $this->content;
+    }
+    
+    public function getContent()
+    {
+        return $this->get();
     }
     
     public function free()
@@ -88,12 +69,23 @@ class peFile
     
     protected function getFileName($filename)
     {
-        $this->filename = pePath_Root . $filename;
+        if (strpos($filename, pePath_Root) === false) {
+            $this->filename = pePath_Root . $filename;
+        }
         return $this->filename;
+    }
+    
+    public function isEmpty()
+    {
+        if (is_array($this->content)) {
+            return (count($this->content) > 1 || !empty($this->content[0])) ? false : true;
+        } else {
+            return empty($this->content);
+        }
     }
     
     public static function lastTime($filename)
     {
-        return filemtime($filename);
+        return @filemtime($filename);
     }
 }

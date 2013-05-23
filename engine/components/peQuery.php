@@ -9,6 +9,7 @@
 class peQuery 
 { 
     private static $_pointer = null;
+    private static $_requests = 0;
     private static $_requestFrom = array("select", "delete");
     private static $_requestSet = array("insert", "update");
     protected $_method = null;
@@ -32,7 +33,8 @@ class peQuery
         {
             case "table": $this->_table = $args[0];     break;
             case "values":
-            case "set":   $this->_info = $args[0];      break;
+            case "set":   
+              $this->_info = self::modelCheck($args[0]);break;
             case "where": $this->_condition = $args[0]; break;
             case "order": $this->_order = $args;        break;
             case "limit": $this->_limit = $args;        break;
@@ -45,6 +47,19 @@ class peQuery
             break;
         }
         return $this;
+    }
+    
+    private static function modelCheck($data) 
+    {
+        if ($data instanceof peModel) {
+            return $data->_getdata();
+        }
+        return $data;
+    }
+    
+    public static function getRequests() 
+    {
+        return self::$_requests;
     }
     
     private function query($return = false)
@@ -115,6 +130,7 @@ class peQuery
             $p = self::getPointer();
             peCore::error("Mysqli: query error (" . $p->errno . "), " . $p->error);
         } else { 
+            self::$_requests++;
             if (!empty($result) && is_object($result))
             {
                 $objects = array();
@@ -184,10 +200,10 @@ class peQuery
                 peProject::getMysqlPass(), 
                 peProject::getMysqlName() 
             );
-            self::$_pointer->query("SET NAMES utf8");   
             if (self::$_pointer->connect_error) {
                 peCore::error('Connect Error (' . self::$_pointer->connect_errno . ') ' . self::$_pointer->connect_error);
             }
+            self::$_pointer->query("SET NAMES utf8");
         }
         return self::$_pointer;
     }

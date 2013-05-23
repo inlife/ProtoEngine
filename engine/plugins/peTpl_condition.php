@@ -20,7 +20,7 @@ class peTpl_condition {
         "else",
         "endif"
     );
-    
+    public static $used = 0;
     public $line;
     public $code;
     public $content = array();
@@ -94,6 +94,7 @@ class peTpl_condition {
             if (class_exists("peTpl_variable")) {
                 peTpl_variable::setBlock(true);
             }
+            self::$used++;
         }
         if (preg_match(peTemplate::exp(self::$syntax[1]), $tpl[$n])) {
             $block = end(self::$openedBlocks);
@@ -119,12 +120,14 @@ class peTpl_condition {
     
     public static function replace(&$tpl, &$data, $spec = false)
     {
-        foreach(self::$closedBlocks as $block) 
-        {
-            $block_name = peTemplate::exp(str_replace("(\S{1,64})", $block->code . " \:true\:", self::$syntax[0]));
-            $tpl = preg_replace($block_name, 
-                implode(peTpl_Imploder, (array)peTemplate::handle($block->get($data))), $tpl, 1
-            );
+        if (self::$used > 0) {
+            foreach(self::$closedBlocks as $block) 
+            {
+                $block_name = peTemplate::exp(str_replace("(\S{1,64})", $block->code . " \:true\:", self::$syntax[0]));
+                $tpl = preg_replace($block_name, 
+                    implode(peTpl_Imploder, (array)peTemplate::handle($block->get($data))), $tpl, 1
+                );
+            }
         }
     }
     

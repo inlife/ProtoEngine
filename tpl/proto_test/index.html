@@ -14,11 +14,13 @@
             </section>
             <footer>
                 <div class="article-data">
-                    Дата добавления: {% article.day %} {% article.month %}
-                    Теги: 
-                    {% foreach(article.tags::tag) %}
-                        {% tag.text %},
-                    {% endfor %}
+                    Дата добавления: {% article.day %} {% article.month %}&nbsp;
+                    {% if (article.tags) %}
+                        Теги:&nbsp;
+                        {% foreach(article.tags::tag) %}
+                            {% tag.text %},&nbsp;
+                        {% endfor %}
+                    {% endif %}
                 </div>
             </footer>
         </article>

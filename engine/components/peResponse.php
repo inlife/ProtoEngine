@@ -10,8 +10,9 @@ class peResponse
 {
     public $data = array();
     
-    public function __construct($html = null) 
+    public function __construct($html = null, $cache = true) 
     {
+        $this->cache = $cache;
         if (isset($html)) {
             $this->html = $html;
         }

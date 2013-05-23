@@ -35,13 +35,9 @@ class peHttp
     
     public static function htmlRedirect($url = null, $time = 0) 
     {
-        if (!$url) {
-            $url = peProject::getHost();
-        }
+        if (!$url) $url = peProject::getHost();
         print(
-            sprintf(
-                "<meta http-equiv='refresh' content='%d; URL=%s'>", $time, $url
-            )
+            sprintf("<meta http-equiv='refresh' content='%d; URL=%s'>", $time, $url)
         );
         
     }

@@ -15,23 +15,20 @@ class peArticle extends peModel
                 /* Converting datetime to unix-timestamp (much easier to store and compare) */
                 $this->date = strtotime($this->date);
                 
-                /* Deleting "id" field (not need to insert) */
-                array_shift($this->_data);
-                
                 /* Running query */
-                return $this->query()->insert()->table("articles")->values($this->_data)->run();
+                return $this->query()->insert()->table("articles")->values($this)->run();
                 
             } else {
-                peHttp::error(6);
+                self::error(6);
             }
         } else {
-            peHttp::error(5);
+            self::error(5);
         }
     }
     
-    public function loadAll()
+    public function callable_loadAll()
     {
-        $articles = $this->query()->select()->table("articles")->order("id", true)->limit(5)->run();
+        $articles = $this->query()->select()->table("articles")->order("id", true)->limit(100)->run();
         
         /* Finding time by timestampts */
         foreach($articles as $key => $article)

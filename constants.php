@@ -6,7 +6,7 @@
  */
 if (!defined('__DIR__'))  define('__DIR__', dirname(__FILE__));    
 
-define("peSys_Version", "3.2.2");
+define("peSys_Version", "3.2.4");
 
 // Dirs & Paths
 define("ds", DIRECTORY_SEPARATOR);
@@ -64,13 +64,17 @@ define("peTpl_DefaultPage", "main");
 define("peTpl_Plugins", "tpl_plugins");
 define("peTpl_SyntaxL", "{%");
 define("peTpl_SyntaxR", "%}");
-define("peTpl_ExpressionL", "/\{\%\s{0,5}");
+define("peTpl_ExpressionL", "/\{\%\s{0,5}\@{0,1}\s{0,5}");
 define("peTpl_ExpressionR", "\s{0,5}\%\}/i");
-define("peTpl_Extenstion", ".html");
-define("peTpl_CacheExt", ".chtm");
 define("peTpl_Imploder", null);
-define("peTpl_Cache", false);
-define("peTpl_Compression", peTpl_Cache);
+define("peTpl_Extension", ".html");
+define("peTpl_CacheExt", ".chtm");
+define("peTpl_CacheTime", 3600);
+define("peTpl_Cache", true);
+define("peTpl_CacheMap", "!peCache_Map_File!");
+define("peTpl_CacheMapSym", ":");
+define("peTpl_NoCacheSym", "@"); // no-cache symbol also in peTpl_ExpressionL
+define("peTpl_Compression", !peTpl_Cache);
 
 /* Template standarts:
  * 
@@ -80,4 +84,5 @@ define("peTpl_Compression", peTpl_Cache);
  * block(name) endblock
  * if(user.logined) else endif
  * foreach(articles::article) endfor
+ * ! - for no-caching
  */

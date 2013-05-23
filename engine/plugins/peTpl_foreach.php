@@ -15,6 +15,7 @@ class peTpl_foreach
     }
     
     public static $blocked = 0;
+    public static $used = 0;
     public static $openedBlocks = array();
     public static $closedBlocks = array();
     public static $syntax = array(
@@ -40,17 +41,19 @@ class peTpl_foreach
             $result = array();
             $pTpl = array(peTpl_SyntaxL . $array . peTpl_SyntaxR);
             $val = peTpl_variable::syntax($pTpl, 0, $data, true);
-            foreach($val as $object)
-            {
-                $data->$variable = $object;
-                $block = implode(peTpl_Imploder, peTemplate::handle($this->content));
-                if (class_exists("peTpl_condition")) {
-                    peTpl_condition::replace($block, $data, true);
+            if (isset($val) && !empty($val)) {
+                foreach($val as $object)
+                {
+                    $data->$variable = $object;
+                    $block = implode(peTpl_Imploder, peTemplate::handle($this->content));
+                    if (class_exists("peTpl_condition")) {
+                        peTpl_condition::replace($block, $data, true);
+                    }
+                    self::replace($block, $data);
+                    $tpl = array($block);
+                    peTpl_variable::syntax($tpl, 0, $data);
+                    $result[] = $tpl[0];
                 }
-                self::replace($block, $data);
-                $tpl = array($block);
-                peTpl_variable::syntax($tpl, 0, $data);
-                $result[] = $tpl[0];
             }
             return implode(peTpl_Imploder, $result);
         }
@@ -86,12 +89,18 @@ class peTpl_foreach
                 peTpl_condition::addIgnore($name);
             }
             if (!self::$blocked) {
-                self::$openedBlocks[] = new self($n, $matches[1]);
+                if (strpos($matches[0], peTpl_NoCacheSym) && peTemplate::isCaching()) {
+                    peTemplate::$blockName = __CLASS__;
+                } else {
+                    self::$openedBlocks[] = new self($n, $matches[1]);
+                }
             } 
             self::$blocked++;
+            self::$used++;
         }
         if (preg_match(peTemplate::exp(self::$syntax[1]), $tpl[$n])) {
             if (self::$blocked == 1) {
+                peTemplate::$blockName = null;
                 $block = end(self::$openedBlocks);
                 $key = key(self::$openedBlocks);
                 if (isset($block) && isset($key)) {
@@ -110,11 +119,13 @@ class peTpl_foreach
     
     public static function replace(&$tpl, &$data)
     {   
-        foreach(self::$closedBlocks as $key => $block) 
-        {
-            unset(self::$closedBlocks[$key]);
-            $block_name = peTemplate::exp(str_replace("(\S{1,64})", $block->name . " \:true\:", self::$syntax[0]));
-            $tpl = preg_replace($block_name, $block->get($data), $tpl, 1);
+        if (self::$used > 0) {
+            foreach(self::$closedBlocks as $key => $block) 
+            {
+                unset(self::$closedBlocks[$key]);
+                $block_name = peTemplate::exp(str_replace("(\S{1,64})", $block->name . " \:true\:", self::$syntax[0]));
+                $tpl = preg_replace($block_name, $block->get($data), $tpl, 1);
+            }
         }
     }
 }
